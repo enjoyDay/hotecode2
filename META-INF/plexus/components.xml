@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-set>
+  <components>
+    <component>
+      <role>org.eclipse.aether.transport.wagon.WagonConfigurator</role>
+      <role-hint>plexus</role-hint>
+      <implementation>org.eclipse.aether.internal.transport.wagon.PlexusWagonConfigurator</implementation>
+      <description />
+      <isolated-realm>false</isolated-realm>
+      <requirements>
+        <requirement>
+          <role>org.codehaus.plexus.PlexusContainer</role>
+          <role-hint />
+          <field-name>container</field-name>
+        </requirement>
+      </requirements>
+    </component>
+    <component>
+      <role>org.eclipse.aether.transport.wagon.WagonProvider</role>
+      <role-hint>plexus</role-hint>
+      <implementation>org.eclipse.aether.internal.transport.wagon.PlexusWagonProvider</implementation>
+      <description />
+      <isolated-realm>false</isolated-realm>
+      <requirements>
+        <requirement>
+          <role>org.codehaus.plexus.PlexusContainer</role>
+          <role-hint />
+          <field-name>container</field-name>
+        </requirement>
+      </requirements>
+    </component>
+  </components>
+</component-set>

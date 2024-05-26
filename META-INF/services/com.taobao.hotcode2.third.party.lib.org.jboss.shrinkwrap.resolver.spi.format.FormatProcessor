@@ -1,0 +1,4 @@
+com.taobao.hotcode2.third.party.lib.org.jboss.shrinkwrap.resolver.spi.format.FileFormatProcessor
+com.taobao.hotcode2.third.party.lib.org.jboss.shrinkwrap.resolver.spi.format.InputStreamFormatProcessor
+com.taobao.hotcode2.third.party.lib.org.jboss.shrinkwrap.resolver.impl.maven.format.MavenResolvedArtifactProcessor
+com.taobao.hotcode2.third.party.lib.org.jboss.shrinkwrap.resolver.impl.maven.format.MavenCoordinateProcessor

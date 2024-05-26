@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Premain-Class: com.taobao.hotcode2.AgentMain
+Archiver-Version: Plexus Archiver
+Built-By: zmx
+Can-Redefine-Classes: true
+Created-By: http://hotcode.alibaba-inc.com
+Build-Jdk: 1.8.0_131
+Boot-Class-Path: hotcode2.jar
+HotCode2-Version: 2.0.1.20190606052244
+Main-Class: com.taobao.hotcode2.RemoteMain
+

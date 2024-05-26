@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.taobao</groupId>
+        <artifactId>hotcode2.all</artifactId>
+        <version>2.0.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.taobao</groupId>
+    <artifactId>hotcode2.core</artifactId>
+    <version>2.0.1</version>
+    <packaging>jar</packaging>
+    <name>HotCode2 Core</name>
+    <description>HotCode2 Core</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.taobao</groupId>
+            <artifactId>hotcode2.sdk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>be.cyberelf.nanoxml</groupId>
+            <artifactId>lite</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <finalName>hotcode2</finalName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Main-Class>com.taobao.hotcode2.RemoteMain</Main-Class>
+                            <Premain-Class>com.taobao.hotcode2.AgentMain</Premain-Class>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Boot-Class-Path>hotcode2.jar</Boot-Class-Path>
+                            <HotCode2-Version>2.0.1.${maven.build.timestamp}</HotCode2-Version>
+                            <Created-By>http://hotcode.alibaba-inc.com</Created-By>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy hotcode2.autoremote.jar</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <echo message="package hotcode2.autoremote.jar"/>
+                                <copy file="${basedir}/../hotcode2.autoconf/target/hotcode2.autoremote.jar"
+                                      todir="${basedir}/target/classes/lib" overwrite="true"/>
+                                <echo message="package hotcode2.plugins"/>
+                                <exec executable="/bin/sh" dir="${basedir}/../hotcode2.plugins">
+                                    <arg value="build_plugin.sh"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.objectweb</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.objectweb</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.apache.commons
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.com.google</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javassist</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.javassist</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>nanoxml</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.nanoxml</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.json.simple</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.json.simple</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.maven</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.apache.maven</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.codehaus.plexus</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.codehaus.plexus
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.eclipse.aether</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.eclipse.aether
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jboss.shrinkwrap.resolver</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.jboss.shrinkwrap.resolver
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jsoup</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.jsoup
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.sonatype.plexus.components</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.sonatype.plexus.components
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.codehaus.plexus.util</pattern>
+                                    <shadedPattern>com.taobao.hotcode2.third.party.lib.org.codehaus.plexus.util
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
